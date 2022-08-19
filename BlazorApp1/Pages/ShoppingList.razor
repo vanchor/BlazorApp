@@ -1,0 +1,53 @@
+﻿@page "/shoppingList"
+@using BlazorApp1.Data
+
+<h3>ShoppingList</h3>
+
+
+
+<input placeholder="Grocery Name" @bind="GroceryName"/>
+<input placeholder="Grocery Name" @bind="GroceryPrice"/>
+<button @onclick="AddGrocery">Add</button>
+<hr />
+
+<table class="table w-30">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+        @foreach(var grocery in groceries)
+        {
+            <tr>
+              <th>@grocery.Name</th>
+              <td>@grocery.Price$</td>
+            </tr>
+        }
+  </tbody>
+</table>
+
+<h2>Total: @groceries.Sum(grocery => grocery.Price)$</h2>
+
+@code {
+    private string GroceryName;
+    private float GroceryPrice;
+
+    private List<Grocery> groceries = new();
+
+    private void AddGrocery()
+    {
+        if(!string.IsNullOrWhiteSpace(GroceryName) && GroceryPrice > 0)
+        {
+            groceries.Add(new Grocery
+                {
+                    Name = GroceryName,
+                    Price = GroceryPrice
+                });
+
+            GroceryName = string.Empty;
+            GroceryPrice = 0;
+        }
+    }
+}
