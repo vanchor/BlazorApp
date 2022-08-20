@@ -1,5 +1,6 @@
 ﻿@page "/shoppingList"
 @using BlazorApp1.Data
+<PageTitle>@title</PageTitle>
 
 <h3>ShoppingList</h3>
 
@@ -28,10 +29,13 @@
   </tbody>
 </table>
 
-<h2>Total: @groceries.Sum(grocery => grocery.Price)$</h2>
+<h2>Total: @sum$</h2>
 
 @code {
-    private string GroceryName;
+    private string title = "Shopping List";
+    private float sum = 0;
+
+    private string GroceryName = "";
     private float GroceryPrice;
 
     private List<Grocery> groceries = new();
@@ -45,6 +49,8 @@
                     Name = GroceryName,
                     Price = GroceryPrice
                 });
+
+            sum += GroceryPrice;
 
             GroceryName = string.Empty;
             GroceryPrice = 0;
