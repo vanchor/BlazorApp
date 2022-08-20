@@ -11,20 +11,18 @@
 <button @onclick="AddGrocery">Add</button>
 <hr />
 
-<table class="table w-30">
+<table class="table table-sm">
   <thead>
     <tr>
       <th scope="col">Name</th>
       <th scope="col">Price</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
         @foreach(var grocery in groceries)
         {
-            <tr>
-              <th>@grocery.Name</th>
-              <td>@grocery.Price$</td>
-            </tr>
+            <Item GroceryItem="@grocery" OnGroceryPriceIncreased="OnGroceryPriceIncreased"/>
         }
   </tbody>
 </table>
@@ -50,10 +48,21 @@
                     Price = GroceryPrice
                 });
 
-            sum += GroceryPrice;
-
             GroceryName = string.Empty;
             GroceryPrice = 0;
         }
+
+        UpdateTotalAmount();
+    }
+
+
+    public void UpdateTotalAmount()
+    {
+        sum = groceries.Sum(x => x.Price);
+    }
+
+    public void OnGroceryPriceIncreased()
+    {
+        UpdateTotalAmount();
     }
 }

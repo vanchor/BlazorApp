@@ -1,0 +1,23 @@
+﻿@using BlazorApp1.Data
+<tr>
+    <th>@GroceryItem.Name</th>
+    <td>@GroceryItem.Price$</td>
+    <td>
+        <button class="btn btn-primary btn-sm" @onclick="AddPrice">Add 5</button>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public Grocery GroceryItem { get; set; }
+
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnGroceryPriceIncreased { get; set; }
+
+    public async Task AddPrice()
+    {
+        GroceryItem.Price += 5;
+        await OnGroceryPriceIncreased.InvokeAsync();
+    }
+}
